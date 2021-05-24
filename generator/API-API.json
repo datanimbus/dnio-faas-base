@@ -1,0 +1,19 @@
+{
+    "_metadata": {
+        "version": {
+            "document":2,
+            "release":"dev"
+        },
+        "deleted": false,
+        "lastUpdated": "2021-05-18T06:52:25.827Z",
+        "createdAt": "2021-05-05T10:17:12.129Z"
+    },
+    "faasID": "NS2044",
+    "name": "abc",
+    "description": null,
+    "app": "UX-Training",
+    "url": "/api/a/faas/UX-Training/abc",
+    "status":"RUNNING", 
+    "code":"res.status(200);res.json(req.body);",
+    "version": 0
+}
