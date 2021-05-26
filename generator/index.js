@@ -31,10 +31,10 @@ async function createProject(functionJSON) {
 
     if (!config.isK8sEnv()) {
       let baseImagePath;
-      if (process.cwd().indexOf('ds-b2b-faass') > -1) {
+      if (process.cwd().indexOf('ds-faas') > -1) {
         baseImagePath = path.join(process.cwd(), '../');
       } else {
-        baseImagePath = path.join(process.cwd(), '../ds-b2b-faass');
+        baseImagePath = path.join(process.cwd(), '../ds-faas');
       }
       fs.copyFileSync(path.join(baseImagePath, 'package.json'), path.join(folderPath, 'package.json'));
       fs.copyFileSync(path.join(baseImagePath, 'package-lock.json'), path.join(folderPath, 'package-lock.json'));
@@ -71,8 +71,8 @@ if (dockerReg.length > 0 && !dockerReg.endsWith('/') && dockerRegistryType != 'E
 
 
 function getDockerFile(release, port, functionData) {
-  let base = `${dockerReg}data.stack:b2b.base.${process.env.IMAGE_TAG}`;
-  if (dockerRegistryType == 'ECR') base = `${dockerReg}:data.stack.b2b.base.${process.env.IMAGE_TAG}`;
+  let base = `${dockerReg}data.stack:b2b.faas.base.${process.env.IMAGE_TAG}`;
+  if (dockerRegistryType == 'ECR') base = `${dockerReg}:data.stack.b2b.faas.base.${process.env.IMAGE_TAG}`;
   logger.debug(`Base image :: ${base}`);
   return `
     FROM ${base}

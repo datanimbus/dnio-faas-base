@@ -5,4 +5,4 @@ if [ ! $1 ]; then
   exit 0
 fi
 
-docker build -t data.stack:b2b.base.$1 .
+docker build -t data.stack:b2b.faas.base.$1 .
