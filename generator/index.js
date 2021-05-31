@@ -71,8 +71,8 @@ if (dockerReg.length > 0 && !dockerReg.endsWith('/') && dockerRegistryType != 'E
 
 
 function getDockerFile(release, port, functionData) {
-  let base = `${dockerReg}data.stack:b2b.faas.base.${process.env.IMAGE_TAG}`;
-  if (dockerRegistryType == 'ECR') base = `${dockerReg}:data.stack.b2b.faas.base.${process.env.IMAGE_TAG}`;
+  let base = `${dockerReg}data.stack:faas.base.${process.env.IMAGE_TAG}`;
+  if (dockerRegistryType == 'ECR') base = `${dockerReg}:data.stack.faas.base.${process.env.IMAGE_TAG}`;
   logger.debug(`Base image :: ${base}`);
   return `
     FROM ${base}
