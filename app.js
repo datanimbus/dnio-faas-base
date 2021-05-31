@@ -139,6 +139,7 @@ const server = app.listen(config.port, function (err) {
     logger.error(err);
   } else {
     logger.info('Server started on port ', config.port);
+    functionUtils.informPM();
     // global.job = Schedule.scheduleJob('0 */2 * * *', cleanUpJob);
     // global.pullJob = Schedule.scheduleJob('*/2 * * * *', pullJob);
     // global.pullJob = setInterval(() => {

@@ -10,6 +10,7 @@ async function getFaasContent(functionData) {
 		const uuid = require('uuid');
 		const validator = require('validator');
 		const moment = require('moment');
+		const got = require('got');
 
 		const router = require('express').Router();
 		
