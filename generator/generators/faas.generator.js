@@ -47,11 +47,8 @@ async function getFaasContent(functionData) {
 			next();
 		});
 
-		router.use(async (req, res, next) => {
-			${functionData.code}
-			next();
-		});
-
+		${functionData.code}
+		
 		function customLogger(req, res, next) {
 			if (req.header('data-stack-txn-id')) {
 				logger = log4js.getLogger(\`\${global.loggerName} [\${req.header('data-stack-txn-id')}] [\${req.header('data-stack-remote-txn-id')}]\`);

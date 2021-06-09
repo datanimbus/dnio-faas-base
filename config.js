@@ -87,12 +87,12 @@ const temp = {
   mongoAuthorUrl: process.env.MONGO_AUTHOR_URL || 'mongodb://localhost:27017',
   mongoLogsUrl: process.env.MONGO_LOGS_URL || 'mongodb://localhost:27017',
   dataDB: process.env.DATA_DB,
-  configDB: process.env.MONGO_AUTHOR_DBNAME || 'dsConfig',
-  logsDB: process.env.MONGO_LOGS_DBNAME || 'dsLogs',
+  configDB: process.env.MONGO_AUTHOR_DBNAME || 'datastackConfig',
+  logsDB: process.env.MONGO_LOGS_DBNAME || 'datastackLogs',
   mongoAuthorOptions: {
     reconnectTries: process.env.MONGO_RECONN_TRIES,
     reconnectInterval: process.env.MONGO_RECONN_TIME_MILLI,
-    dbName: process.env.MONGO_AUTHOR_DBNAME || 'dsConfig',
+    dbName: process.env.MONGO_AUTHOR_DBNAME || 'datastackConfig',
     useNewUrlParser: true
   },
   mongoAppcenterOptions: {
@@ -103,7 +103,7 @@ const temp = {
   mongoLogsOptions: {
     numberOfRetries: process.env.MONGO_RECONN_TRIES,
     retryMiliSeconds: process.env.MONGO_RECONN_TIME_MILLI,
-    dbName: process.env.MONGO_LOGS_DBNAME || 'dsLogs',
+    dbName: process.env.MONGO_LOGS_DBNAME || 'datastackLogs',
     useNewUrlParser: true
   },
   maxHeapSize: process.env.NODE_MAX_HEAP_SIZE || '4096',
