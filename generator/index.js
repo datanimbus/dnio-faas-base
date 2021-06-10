@@ -8,13 +8,13 @@ const { getFaasContent } = require('./generators/faas.generator');
 const logger = global.logger;
 
 
-async function createProject(functionJSON) {
+async function createProject(functionJSON, txnId) {
   try {
     if (!functionJSON.port) {
       functionJSON.port = 31000;
     }
-    const folderPath = path.join(process.cwd(), 'generatedFaas', functionJSON.faasID);
-    logger.info('Creating Project Folder:', folderPath);
+    const folderPath = path.join(process.cwd(), 'generatedFaas', functionJSON._id);
+    logger.info(`[${txnId}] Creating Project Folder - ${folderPath}`);
 
     mkdirp.sync(folderPath);
     
@@ -36,6 +36,8 @@ async function createProject(functionJSON) {
       } else {
         baseImagePath = path.join(process.cwd(), '../ds-faas');
       }
+      logger.info(`[${txnId}] Base Image Path - ${baseImagePath}`);
+
       fs.copyFileSync(path.join(baseImagePath, 'package.json'), path.join(folderPath, 'package.json'));
       fs.copyFileSync(path.join(baseImagePath, 'package-lock.json'), path.join(folderPath, 'package-lock.json'));
       fs.copyFileSync(path.join(baseImagePath, 'faas.yaml'), path.join(folderPath, 'faas.yaml'));
@@ -43,9 +45,9 @@ async function createProject(functionJSON) {
       fs.copyFileSync(path.join(baseImagePath, 'app.js'), path.join(folderPath, 'app.js'));
       
       const cpUtils = await copy(path.join(baseImagePath, 'utils'), path.join(folderPath, 'utils'));
-      logger.info('Copied utils', cpUtils ? cpUtils.length : 0);
+      logger.info(`[${txnId}] Copied utils - ${cpUtils ? cpUtils.length : 0}`);
       const cpRoutes = await copy(path.join(baseImagePath, 'routes'), path.join(folderPath, 'routes'));
-      logger.info('Copied routes', cpRoutes ? cpRoutes.length : 0);
+      logger.info(`[${txnId}] Copied routes - ${cpRoutes ? cpRoutes.length : 0}`);
     }
 
     let { content: faasContent } = await getFaasContent(functionJSON);
@@ -55,9 +57,9 @@ async function createProject(functionJSON) {
     fs.writeFileSync(path.join(folderPath, 'faas.json'), JSON.stringify(functionJSON));
     fs.writeFileSync(path.join(folderPath, '.env'), getEnvFile(config.release, functionJSON.port, functionJSON));
 
-    logger.info('Project Folder Created!');
+    logger.info(`[${txnId}] Project Folder Created! ${folderPath}`);
   } catch (e) {
-    logger.error('Project Folder Error!', e);
+    logger.error(`[${txnId}] Project Folder Error! ${e}`);
   }
 }
 
@@ -87,7 +89,7 @@ function getDockerFile(release, port, functionData) {
     ENV DATA_STACK_PARTNER_ID="${functionData.partnerID}"
     ENV DATA_STACK_PARTNER_NAME="${functionData.partnerName}"
     ENV DATA_STACK_FAAS_NAMESPACE="${functionData.namespace}"
-    ENV DATA_STACK_FAAS_ID="${functionData.faasID}"
+    ENV DATA_STACK_FAAS_ID="${functionData._id}"
     ENV DATA_STACK_FAAS_NAME="${functionData.name}"
     ENV DATA_STACK_FAAS_VERSION="${functionData.version}"
     ENV DATA_STACK_DEPLOYMENT_NAME="${functionData.deploymentName}"
@@ -109,7 +111,7 @@ function getEnvFile(release, port, functionData) {
     DATA_STACK_PARTNER_ID="${functionData.partnerID}"
     DATA_STACK_PARTNER_NAME="${functionData.partnerName}"
     DATA_STACK_FAAS_NAMESPACE="${functionData.namespace}"
-    DATA_STACK_FAAS_ID="${functionData.faasID}"
+    DATA_STACK_FAAS_ID="${functionData._id}"
     DATA_STACK_FAAS_NAME="${functionData.name}"
     DATA_STACK_FAAS_VERSION="${functionData.version}"
     DATA_STACK_DEPLOYMENT_NAME="${functionData.deploymentName}"
