@@ -18,8 +18,14 @@ async function getFaasContent(functionData) {
 			require('dotenv').config();
 		}
 
-		const config = require('../config');
+		const {fqdn, logLevel, dataStackNS, dataStackAppName, dataStackAllowedFileType} = require('../config');
 		const faasData = require('../faas.json');
+
+		const FQDN = fqdn;
+		const LOG_LEVEL = logLevel;
+		const DATA_STACK_NAMESPACE = dataStackNS;
+		const DATA_STACK_APP_NAMESPACE = dataStackAppName;
+		const DATA_STACK_ALLOWED_FILE_TYPE = dataStackAllowedFileType;
 
 		let logger = global.logger;
 
