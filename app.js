@@ -99,7 +99,7 @@ app.use((req, res, next) => {
   //   return res.status(400).json({ message: 'Server has stopped accepting requests' });
   // }
   if (req.path.split('/').indexOf('health') == -1) {
-    logger.trace(req.path, req.headers);
+    logger.trace(req.path, req.method, req.headers);
   }
   global.activeRequest++;
   res.on('close', function () {
