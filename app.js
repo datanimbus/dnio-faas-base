@@ -20,7 +20,6 @@ log4js.configure({
 
 const utils = require('@appveen/utils');
 const config = require('./config');
-const queue = require('./utils/queue.utils');
 
 if (!fs.existsSync('./downloads')) {
   fs.mkdirSync('./downloads');
@@ -34,7 +33,8 @@ global.loggerName = loggerName;
 global.logger = logger;
 global.activeRequest = 0;
 global.dbPromises = [];
-global.client = queue.client;
+
+const queue = require('./utils/queue.utils');
 
 // Import after global logger is set.
 const functionUtils = require('./utils/faas.utils');
