@@ -33,6 +33,8 @@ client.on('close', function() {
 	logger.info('STREAMING close');
 });
 
+global.client = client;
+
 module.exports = {
 	client: client
 };
