@@ -20,6 +20,7 @@ log4js.configure({
 
 const utils = require('@appveen/utils');
 const config = require('./config');
+const { client } = require('./utils/queue.utils');
 
 if (!fs.existsSync('./downloads')) {
   fs.mkdirSync('./downloads');
@@ -33,6 +34,7 @@ global.loggerName = loggerName;
 global.logger = logger;
 global.activeRequest = 0;
 global.dbPromises = [];
+global.client = client;
 
 // Import after global logger is set.
 const functionUtils = require('./utils/faas.utils');
@@ -100,6 +102,7 @@ app.use((req, res, next) => {
   // }
   if (req.path.split('/').indexOf('health') == -1) {
     logger.trace(req.path, req.method, req.headers);
+    client.publish(config.faasLastInvokedQueue, JSON.stringify({ _id: config.dataStackFaasId, startTime: (new Date()).toISOString() }));
   }
   global.activeRequest++;
   res.on('close', function () {

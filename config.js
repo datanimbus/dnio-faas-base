@@ -77,6 +77,7 @@ const temp = {
   port: process.env.PORT || '31000',
 	logQueueName: 'systemService',
   consoleLogQueueName: 'faasConsoleLogs',
+  faasLastInvokedQueue: 'faasLastInvoked',
   NATSConfig: {
     url: process.env.MESSAGING_HOST || 'nats://127.0.0.1:4222',
     user: process.env.MESSAGING_USER || '',
