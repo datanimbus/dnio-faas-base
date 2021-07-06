@@ -83,7 +83,6 @@ const temp = {
     pass: process.env.MESSAGING_PASS || '',
     maxReconnectAttempts: process.env.MESSAGING_RECONN_ATTEMPTS || 500,
     reconnectTimeWait: process.env.MESSAGING_RECONN_TIMEWAIT_MILLI || 500,
-    streamingCluster: process.env.NATS_STREAMING_CLUSTER,
   },
   mongoAppcenterUrl: process.env.MONGO_APPCENTER_URL || 'mongodb://localhost:27017',
   mongoAuthorUrl: process.env.MONGO_AUTHOR_URL || 'mongodb://localhost:27017',
