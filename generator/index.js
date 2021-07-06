@@ -96,6 +96,11 @@ function getDockerFile(release, port, functionData) {
     ENV RELEASE="${release}"
     ENV PORT="${port}"
     ENV DATA_DB="${config.dataStackNS}-${functionData.app}"
+    ENV MESSAGING_HOST="${config.streamingConfig.url}"
+    ENV MESSAGING_USER="${config.streamingConfig.user}"
+    ENV MESSAGING_PASS="${config.streamingConfig.pass}"
+    ENV MESSAGING_RECONN_ATTEMPTS="${config.streamingConfig.maxReconnectAttempts}"
+    ENV MESSAGING_RECONN_TIMEWAIT_MILLI="${config.streamingConfig.stanMaxPingOut}"
 
     EXPOSE ${port}
 
@@ -115,6 +120,11 @@ function getEnvFile(release, port, functionData) {
     DATA_STACK_FAAS_NAME="${functionData.name}"
     DATA_STACK_FAAS_VERSION="${functionData.version}"
     DATA_STACK_DEPLOYMENT_NAME="${functionData.deploymentName}"
+    MESSAGING_HOST="${config.streamingConfig.url}"
+    MESSAGING_USER="${config.streamingConfig.user}"
+    MESSAGING_PASS="${config.streamingConfig.pass}"
+    MESSAGING_RECONN_ATTEMPTS="${config.streamingConfig.maxReconnectAttempts}"
+    MESSAGING_RECONN_TIMEWAIT_MILLI="${config.streamingConfig.stanMaxPingOut}"
     RELEASE="${release}"
     PORT="${port}"
     DATA_DB="${config.dataStackNS}-${functionData.app}"
