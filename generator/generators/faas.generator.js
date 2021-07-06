@@ -47,6 +47,9 @@ async function getFaasContent(functionData) {
 		let logger = log4js.getLogger('console')
 		let globalLogger = global.logger;
 
+		logger.addContext('faasId', '${functionData._id}');
+		logger.addContext('app', '${functionData.app}');
+
   		router.use(async (req, res, next) => {
 			logger.info(\`[\${req.method}] \${req.path}\`);
 			globalLogger.info(\`Starting to Process Faas -> Txn-Id - \${req.header('txnId')} \`);
