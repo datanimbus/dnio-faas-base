@@ -31,6 +31,14 @@ async function getFaasContent(functionData) {
 		const DATA_STACK_APP_NAMESPACE = dataStackAppName;
 		const DATA_STACK_ALLOWED_FILE_TYPE = dataStackAllowedFileType;
 
+		process.env = {
+			FQDN,
+			LOG_LEVEL,
+			DATA_STACK_NAMESPACE,
+			DATA_STACK_APP_NAMESPACE,
+			DATA_STACK_ALLOWED_FILE_TYPE
+		};
+
 		log4js.configure({
 			appenders: {
 				out: { type: 'stdout' },
