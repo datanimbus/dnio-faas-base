@@ -13,7 +13,7 @@
     "@appveen/data.stack-utils": "^1.0.17",
     "@appveen/ds-sdk": "^1.0.8",
     "@appveen/utils": "1.2.6",
-    "async": "^3.2.0",
+    "async": "^3.2.3",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.7-alpha.4",
     "faker": "5.5.2",
