@@ -1,14 +1,15 @@
 const request = require('request');
 const config = require('../config');
+const log4js = require('log4js');
 
-const logger = global.logger;
+const logger = log4js.getLogger();
 
 
 function getErrorResponse(err, code) {
   let errResp = {};
-  errResp.appName = config.dataStackAppName;
-  errResp.faasId = config.dataStackFaasId;
-  errResp.faasName = config.dataStackFaasName;
+  errResp.appName = config.app;
+  errResp.faasId = config.faasId;
+  errResp.faasName = config.faasName;
   errResp.message = JSON.stringify(err.message || err);
   errResp.stackTrace = JSON.stringify(err.stack || err);
   errResp.statusCode = JSON.stringify(code)
@@ -16,9 +17,9 @@ function getErrorResponse(err, code) {
 }
 
 
-function informPM() {
-  const url = config.baseUrlPM + `/faas/${config.dataStackFaasId}/statusChange?status=Active&version=${config.dataStackFaasVersion}`;
-  logger.debug('Informing PM :', url);
+function informBM() {
+  const url = config.baseUrlBM + `/${config.app}/faas/utils/${config.faasId}/statusChange?status=Active&version=${config.dataStackFaasVersion}`;
+  logger.debug('Informing BM :', url);
   request({
     url,
     method: 'put',
@@ -27,13 +28,35 @@ function informPM() {
     }
   }, function (err, res) {
     if (err) {
-      logger.error('Unable to Inform PM', err);
+      logger.error('Unable to Inform BM', err);
       return;
     }
     if (res.statusCode >= 300 || res.statusCode < 200) {
-      logger.error('Response from PM:', res.statusCode, res.body);
+      logger.error('Response from BM:', res.statusCode, res.body);
     } else {
-      logger.info('Informed PM');
+      logger.info('Informed BM');
+    }
+  });
+}
+
+function initBM() {
+  const url = config.baseUrlBM + `/${config.app}/faas/utils/${config.faasId}/init`;
+  logger.debug('Initializing with BM :', url);
+  request({
+    url,
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }, function (err, res) {
+    if (err) {
+      logger.error('Unable to Inform BM', err);
+      return;
+    }
+    if (res.statusCode >= 300 || res.statusCode < 200) {
+      logger.error('Response from BM:', res.statusCode, res.body);
+    } else {
+      logger.info('Initialized with BM');
     }
   });
 }
@@ -41,5 +64,6 @@ function informPM() {
 
 module.exports = {
   getErrorResponse,
-  informPM
+  informBM,
+  initBM
 };

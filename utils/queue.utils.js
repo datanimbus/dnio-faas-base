@@ -1,4 +1,5 @@
 let config = require('../config');
+let log4js = require('log4js');
 
 var clientId = isK8sEnv() ? `${process.env.HOSTNAME}` : 'FAAS';
 var client = require('@appveen/data.stack-utils').streaming.init(
@@ -7,7 +8,7 @@ var client = require('@appveen/data.stack-utils').streaming.init(
 	config.NATSConfig
 );
 
-const logger = global.logger;
+const logger = log4js.getLogger();
 
 function isK8sEnv() {
 	return process.env.KUBERNETES_SERVICE_HOST && process.env.KUBERNETES_SERVICE_PORT;

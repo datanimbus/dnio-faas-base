@@ -7,11 +7,9 @@ async function getFaasContent(functionData) {
 	let content = `
 		const lodash = require('lodash');
 		const log4js = require('log4js');
-		const faker = require("faker");
 		const uuid = require('uuid');
 		const validator = require('validator');
 		const moment = require('moment');
-		const got = require('got');
 		const SDK = require('@appveen/ds-sdk');
 		const router = require('express').Router();
 		
@@ -77,7 +75,7 @@ async function getFaasContent(functionData) {
 		
 		module.exports = router;
 	`;
-	return { content };
+	return content ;
 }
 
 
