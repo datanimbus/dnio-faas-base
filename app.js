@@ -53,7 +53,7 @@ const config = require('./config');
 
   app.use('/api/faas', require('./routes'));
 
-  app.use('/api/b2b/internal/health/ready', async function (req, res) {
+  app.use('/api/faas/utils/health/ready', async function (req, res) {
     try {
       if (global.appcenterDB) {
         return res.status(200).json({ message: 'Alive' });
