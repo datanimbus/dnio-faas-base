@@ -20,17 +20,17 @@ global.trueBooleanValues = ['y', 'yes', 'true', '1'];
 global.falseBooleanValues = ['n', 'no', 'false', '0'];
 
 e.updateLogger = (additionalLoggerIdentifier) => {
-	let LOGGER_NAME = e.isK8sEnv() ? `[${e.appNamespace}] [${e.hostname}] [${e.serviceName} v.${e.serviceVersion}]` : `[${e.serviceName} v.${e.serviceVersion}]`;
+	let LOGGER_NAME = e.isK8sEnv() ? `[${e.appNamespace}] [${e.hostname}] [${e.faasName} v.${e.faasVersion}]` : `[${e.faasName} v.${e.faasVersion}]`;
 	if (additionalLoggerIdentifier) LOGGER_NAME += ` [${additionalLoggerIdentifier}]`;
 	global.loggerName = LOGGER_NAME;
 	log4js.configure({
 		appenders: { out: { type: 'stdout', layout: { type: 'basic' } } },
-		categories: { default: { appenders: ['out'], level: global.LOG_LEVEL } }
+		categories: { default: { appenders: ['out'], level: e.logLevel } }
 	});
 	let logger = log4js.getLogger(LOGGER_NAME);
 	global.logger = logger;
 };
-e.logLevel = "debug";
+e.logLevel = process.env.LOG_LEVEL || 'info';
 
 e.isK8sEnv = function () {
 	return process.env.KUBERNETES_SERVICE_HOST && process.env.KUBERNETES_SERVICE_PORT;
@@ -101,16 +101,6 @@ e.faasName = null;
 e.faasPort = null;
 e.faasVersion = null;
 e.faasDB = null;
-e.serviceEndpoint = null;
-e.serviceCollection = null;
-e.permanentDelete = null;
-e.disableInsights = null;
-e.disableAudits = null;
-// ID Config ENV Varaiables
-e.ID_PADDING = null;
-e.ID_PREFIX = null;
-e.ID_SUFFIX = null;
-e.ID_COUNTER = null;
 e.allowedExt = null;
 
 e.MaxJSONSize = process.env.MAX_JSON_SIZE || '1mb';

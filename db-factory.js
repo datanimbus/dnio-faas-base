@@ -76,6 +76,8 @@ function initConfigVariables(faasDoc) {
 
 	config.mongoAppCenterOptions.dbName = config.faasDB;
 
+	config.updateLogger(null);
+
 	logger.info(`Faas ID : ${config.faasId}`);
 	logger.info(`Faas version : ${config.faasVersion}`);
 }
@@ -84,6 +86,10 @@ async function init() {
 	try {
 		await establishAuthorAndLogsDBConnections();
 		let faasDoc = await fetchFunctionDetails(config.faasId);
+		if (!faasDoc) {
+			logger.error(`Faas document not found :: ${config.faasId}`);
+			throw new Error('Document Not Found');
+		}
 		logger.info(`Faas document : ${JSON.stringify(faasDoc)}`);
 		// INIT CONFIG based on the faas doc
 		initConfigVariables(faasDoc);
