@@ -10,9 +10,9 @@ async function getFaasContent(functionData) {
 		const uuid = require('uuid');
 		const validator = require('validator');
 		const moment = require('moment');
+		const got = require('got');
 		const SDK = require('@appveen/ds-sdk');
 		const router = require('express').Router();
-		
 		const customAppender = require('../utils/appender.utils.js');
 
 		
