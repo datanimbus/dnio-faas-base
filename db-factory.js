@@ -30,24 +30,24 @@ global.BM_TOKEN = token;
 		process.exit(0);
 	}
 
-	if (process.env.NODE_ENV !== 'production') {
-		logger.info(`NODE_ENV is ${process.env.NODE_ENV}. Won't call BM API.`);
-	} else {
-		try {
-			let b2bBaseURL = config.baseUrlBM + '/' + config.app + '/faas/utils/' + config.faasId + '/init';
-			logger.debug(`BM API Call :: ${config.baseUrlBM + '/' + config.app + '/faas/utils/' + config.faasId + '/init'}`);
-			const resp = await httpClient.request({
-				method: 'PUT',
-				url: b2bBaseURL,
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-			logger.debug(`BM API Call status :: ${resp.statusCode}`);
-			logger.trace(`BM API Call response body :: ${resp.body}`);
-		} catch (err) {
-			logger.error('Unable to inform B2B Manager');
-			logger.error(err);
-		}
-	}
+	// if (process.env.NODE_ENV !== 'production') {
+	// 	logger.info(`NODE_ENV is ${process.env.NODE_ENV}. Won't call BM API.`);
+	// } else {
+	// 	try {
+	// 		let b2bBaseURL = config.baseUrlBM + '/' + config.app + '/faas/utils/' + config.faasId + '/init';
+	// 		logger.debug(`BM API Call :: ${config.baseUrlBM + '/' + config.app + '/faas/utils/' + config.faasId + '/init'}`);
+	// 		const resp = await httpClient.request({
+	// 			method: 'PUT',
+	// 			url: b2bBaseURL,
+	// 			headers: {
+	// 				'Content-Type': 'application/json'
+	// 			}
+	// 		});
+	// 		logger.debug(`BM API Call status :: ${resp.statusCode}`);
+	// 		logger.trace(`BM API Call response body :: ${resp.body}`);
+	// 	} catch (err) {
+	// 		logger.error('Unable to inform B2B Manager');
+	// 		logger.error(err);
+	// 	}
+	// }
 })();
