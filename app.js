@@ -16,6 +16,8 @@ const functionUtils = require('./utils/faas.utils');
 
 const token = JWT.sign({ name: 'DS_BM', _id: 'admin', isSuperAdmin: true }, config.TOKEN_SECRET);
 
+console.log('FAAS ID :: ', config.faasId);
+
 httpClient.request({
   url: config.baseUrlBM + '/' + config.app + '/faas/' + config.faasId,
   method: 'GET',
