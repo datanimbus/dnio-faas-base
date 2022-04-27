@@ -15,10 +15,8 @@ const queue = require('./utils/queue.utils');
 const functionUtils = require('./utils/faas.utils');
 
 const token = JWT.sign({ name: 'DS_BM', _id: 'admin', isSuperAdmin: true }, config.TOKEN_SECRET);
-const logger = log4js.getLogger(global.loggerName);
-global.logger = logger;
 
-logger.info('FAAS ID :: ', config.faasId);
+console.log('FAAS ID :: ', config.faasId);
 
 httpClient.request({
   url: config.baseUrlBM + '/' + config.app + '/faas/' + config.faasId,
@@ -62,6 +60,8 @@ function initialize() {
   }
 
   const app = express();
+  const logger = log4js.getLogger(global.loggerName);
+  global.logger = logger;
   
   app.use((req, res, next) => {
     if (req.path.split('/').indexOf('health') == -1) {
