@@ -9,7 +9,7 @@ function configure(config, layouts) {
             global.client.publish(envConfig.consoleLogQueueName, JSON.stringify(loggingEvent));
             logger.debug('Logs Published to Queue');
         } catch (err) {
-            logger.console.error('Error Publishing Logs', err);
+            logger.error('Error Publishing Logs', err);
         }
     };
 }
