@@ -32,7 +32,7 @@ httpClient.request({
   config.imageTag = faasData._id + ':' + faasData.version;
   config.appDB = config.namespace + '-' + faasData.app;
   config.app = faasData.app;
-  config.version = faasData.version;
+  config.faasVersion = faasData.version;
   config.faasPort = faasData.port;
   try {
     await codeGen.createProject(faasData);

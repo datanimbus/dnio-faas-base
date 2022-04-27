@@ -18,7 +18,7 @@ function getErrorResponse(err, code) {
 
 
 function informBM() {
-  const url = config.baseUrlBM + `/${config.app}/faas/utils/${config.faasId}/statusChange?status=Active&version=${config.dataStackFaasVersion}`;
+  const url = config.baseUrlBM + `/${config.app}/faas/utils/${config.faasId}/statusChange?status=Active&version=${config.faasVersion}`;
   logger.debug('Informing BM :', url);
   request({
     url,
