@@ -1,107 +1,53 @@
-const fs = require('fs');
+const { MongoClient } = require('mongodb');
+const JWT = require('jsonwebtoken');
 const log4js = require('log4js');
-const mongoose = require('mongoose');
 
 const config = require('./config');
+const httpClient = require('./http-client');
 
-let logger = log4js.getLogger(global.loggerName);
+const LOGGER_NAME = config.isK8sEnv() ? `[${config.hostname}] [FAAS v${config.imageTag}]` : `[FAAS v${config.imageTag}]`;
+const logger = log4js.getLogger(LOGGER_NAME);
+const token = JWT.sign({ name: 'B2B-MANAGER', _id: 'admin', isSuperAdmin: true }, config.TOKEN_SECRET, {});
 
-async function establishingAppCenterDBConnections() {
+// For threads to pick txnId and user headers
+global.userHeader = 'user';
+global.txnIdHeader = 'txnid';
+global.loggerName = LOGGER_NAME;
+global.trueBooleanValues = ['y', 'yes', 'true', '1'];
+global.falseBooleanValues = ['n', 'no', 'false', '0'];
+global.BM_TOKEN = token;
+
+
+(async () => {
 	try {
-		logger.info(`Appcenter DB : ${config.mongoAppCenterOptions.dbName}`);
-		await mongoose.connect(config.mongoUrl, config.mongoAppCenterOptions);
-		logger.info(`Connected to appcenter db : ${config.faasDB}`);
-		mongoose.connection.on('connecting', () => { logger.info(` *** ${config.faasDB} CONNECTING *** `); });
-		mongoose.connection.on('disconnected', () => { logger.error(` *** ${config.faasDB} LOST CONNECTION *** `); });
-		mongoose.connection.on('reconnect', () => { logger.info(` *** ${config.faasDB} RECONNECTED *** `); });
-		mongoose.connection.on('connected', () => { logger.info(`Connected to ${config.faasDB} DB`); });
-		mongoose.connection.on('reconnectFailed', () => { logger.error(` *** ${config.faasDB} FAILED TO RECONNECT *** `); });
-
-		global.gfsBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: `${config.faasCollection}` });
-		global.gfsBucketExport = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: `${config.faasCollection}.exportedFile` });
-		global.gfsBucketImport = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: `${config.faasCollection}.fileImport` });
-		await setIsTransactionAllowed();
-	} catch (e) {
-		logger.error(e.message);
+		logger.trace(config.mongoUrl, config.mongoAppCenterOptions, config.appDB);
+		const client = await MongoClient.connect(config.mongoUrl, config.mongoAppCenterOptions);
+		logger.info('Connected to ', config.appDB);
+		const appcenterDB = client.db(config.appDB);
+		global.appcenterDB = appcenterDB;
+	} catch(err) {
+		logger.error(err);
+		process.exit(0);
 	}
-}
 
-async function establishAuthorAndLogsDBConnections() {
-	let promises = [];
-	logger.info(`Author DB :: ${config.mongoAuthorOptions.dbName}`);
-	const authorDB = mongoose.createConnection(config.mongoAuthorUrl, config.mongoAuthorOptions);
-	authorDB.on('connecting', () => { logger.info(` *** ${config.authorDB} CONNECTING *** `); });
-	authorDB.on('disconnected', () => { logger.error(` *** ${config.authorDB} LOST CONNECTION *** `); });
-	authorDB.on('reconnect', () => { logger.info(` *** ${config.authorDB} RECONNECTED *** `); });
-	authorDB.on('connected', () => {
-		logger.info(`Connected to author db : ${config.authorDB}`);
-		promises.push(Promise.resolve('Connected to AuthorDB'));
-	});
-	authorDB.on('reconnectFailed', () => { logger.error(` *** ${config.authorDB} FAILED TO RECONNECT *** `); });
-	global.authorDB = authorDB;
-
-	logger.debug(`Logs DB :: ${config.mongoLogsOptions.dbName}`);
-	const logsDB = mongoose.createConnection(config.mongoLogUrl, config.mongoLogsOptions);
-	logsDB.on('connecting', () => { logger.info(` *** ${config.logsDB} CONNECTING *** `); });
-	logsDB.on('disconnected', () => { logger.error(` *** ${config.logsDB} LOST CONNECTION *** `); });
-	logsDB.on('reconnect', () => { logger.info(` *** ${config.logsDB} RECONNECTED *** `); });
-	logsDB.on('connected', () => {
-		logger.info(`Connected to logs db : ${config.logsDB}`);
-		promises.push(Promise.resolve('Connected to LogsDB'));
-	});
-	logsDB.on('reconnectFailed', () => { logger.error(` *** ${config.logsDB} FAILED TO RECONNECT *** `); });
-	global.logsDB = logsDB;
-
-	await Promise.all(promises);
-}
-
-async function fetchFunctionDetails(faasID) {
-	try {
-		logger.info(`Fetching functions details : ${faasID}`);
-		return await global.authorDB.collection('b2b.faas').findOne({ _id: faasID });
-	} catch (e) {
-		logger.error(`Unable to fetch function details :: ${faasID}`);
-		logger.error(e.message);
-	}
-}
-
-function initConfigVariables(faasDoc) {
-	config.app = faasDoc.app;
-	config.faasName = faasDoc.name;
-	config.faasPort = faasDoc.port;//
-	config.faasVersion = faasDoc.version;
-	config.faasDB = `${config.namespace}-${faasDoc.app}`;
-	config.faasEndpoint = faasDoc.url;
-	config.faasCollection = faasDoc.collectionName;//
-
-	config.mongoAppCenterOptions.dbName = config.faasDB;
-
-	config.updateLogger(null);
-
-	logger.info(`Faas ID : ${config.faasId}`);
-	logger.info(`Faas version : ${config.faasVersion}`);
-}
-
-async function init() {
-	try {
-		await establishAuthorAndLogsDBConnections();
-		let faasDoc = await fetchFunctionDetails(config.faasId);
-		if (!faasDoc) {
-			logger.error(`Faas document not found :: ${config.faasId}`);
-			throw new Error('Document Not Found');
+	if (process.env.NODE_ENV !== 'production') {
+		logger.info(`NODE_ENV is ${process.env.NODE_ENV}. Won't call BM API.`);
+	} else {
+		try {
+			let b2bBaseURL = config.baseUrlBM + '/' + config.app + '/faas/utils/' + config.faasId + '/init';
+			logger.debug(`BM API Call :: ${config.baseUrlBM + '/' + config.app + '/faas/utils/' + config.faasId + '/init'}`);
+			const resp = await httpClient.request({
+				method: 'PUT',
+				url: b2bBaseURL,
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+			logger.debug(`BM API Call status :: ${resp.statusCode}`);
+			logger.trace(`BM API Call response body :: ${resp.body}`);
+		} catch (err) {
+			logger.error('Unable to inform B2B Manager');
+			logger.error(err);
 		}
-		logger.info(`Faas document : ${JSON.stringify(faasDoc)}`);
-		// INIT CONFIG based on the faas doc
-		initConfigVariables(faasDoc);
-		// GENERATE THE CODE
-		require('./generator').createProject(faasDoc);
-		// CONNECT TO APPCENTER DB
-		await establishingAppCenterDBConnections();
-	} catch (e) {
-		logger.error('Error in DB init!');
-		logger.error(e);
-		process.exit();
 	}
-}
-
-module.exports.init = init;
+})();
