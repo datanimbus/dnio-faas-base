@@ -125,7 +125,7 @@ function get(_service) {
 		if (_service == 'dm') return `http://dm.${e.namespace}`;
 		if (_service == 'ne') return `http://ne.${e.namespace}`;
 		if (_service == 'sm') return `http://sm.${e.namespace}`;
-		if (_service == 'bm') return `http://pm.${e.namespace}`;
+		if (_service == 'bm') return `http://bm.${e.namespace}`;
 		if (_service == 'user') return `http://user.${e.namespace}`;
 		if (_service == 'gw') return `http://gw.${e.namespace}`;
 		if (_service == 'wf') return `http://wf.${e.namespace}`;
