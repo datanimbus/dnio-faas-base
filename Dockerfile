@@ -14,4 +14,7 @@ COPY . .
 
 EXPOSE 31000
 
+ENV IMAGE_TAG=__image_tag__
+ENV NODE_ENV='production'
+
 CMD [ "node", "app.js" ]
