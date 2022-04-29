@@ -82,6 +82,14 @@ e.mongoLogsOptions = {
 	dbName: process.env.MONGO_LOGS_DBNAME || 'datastackLogs'
 };
 
+e.NATSConfig = {
+	url: process.env.STREAMING_HOST || 'nats://127.0.0.1:4222',
+	user: process.env.STREAMING_USER || '',
+	pass: process.env.STREAMING_PASS || '',
+	maxReconnectAttempts: process.env.STREAMING_RECONN_ATTEMPTS || 500,
+	reconnectTimeWait: process.env.STREAMING_RECONN_TIMEWAIT_MILLI || 500,
+};
+
 // e.transactionOptions = {
 // 	readPreference: 'primary',
 // 	readConcern: { level: 'local' },
