@@ -50,7 +50,10 @@ e.mongoUrl = process.env.MONGO_APPCENTER_URL || 'mongodb://localhost:27017';
 e.authorDB = process.env.MONGO_AUTHOR_DBNAME || 'datastackConfig';
 e.mongoAuthorUrl = process.env.MONGO_AUTHOR_URL || 'mongodb://localhost:27017';
 e.mongoLogUrl = process.env.MONGO_LOGS_URL || 'mongodb://localhost:27017';
+e.mongoAppcenterUrl = process.env.MONGO_APPCENTER_URL || 'mongodb://localhost:27017';
+e.dataDB = process.env.DATA_DB;
 e.logsDB = process.env.MONGO_LOGS_DBNAME || 'datastackLogs';
+e.configDB = process.env.MONGO_AUTHOR_DBNAME || 'datastackConfig';
 e.googleKey = process.env.GOOGLE_API_KEY || '';
 e.queueName = 'webHooks';
 e.streamingConfig = {
@@ -89,6 +92,10 @@ e.NATSConfig = {
 	maxReconnectAttempts: process.env.STREAMING_RECONN_ATTEMPTS || 500,
 	reconnectTimeWait: process.env.STREAMING_RECONN_TIMEWAIT_MILLI || 500,
 };
+
+e.logQueueName = 'systemService';
+e.consoleLogQueueName = 'faasConsoleLogs';
+e.faasLastInvokedQueue = 'faasLastInvoked';
 
 // e.transactionOptions = {
 // 	readPreference: 'primary',
