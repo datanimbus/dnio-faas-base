@@ -66,7 +66,7 @@ function initialize() {
     app.use((req, res, next) => {
       if (req.path.split('/').indexOf('health') == -1) {
         logger.trace(req.path, req.method, req.headers);
-        queue.client.publish(config.faasLastInvokedQueue, JSON.stringify({ _id: config.dataStackFaasId, startTime: (new Date()).toISOString() }));
+        queue.client.publish(config.faasLastInvokedQueue, JSON.stringify({ _id: config.faasId, startTime: (new Date()).toISOString() }));
       }
       global.activeRequest++;
       res.on('close', function () {
