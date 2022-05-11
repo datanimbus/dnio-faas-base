@@ -50,7 +50,10 @@ e.mongoUrl = process.env.MONGO_APPCENTER_URL || 'mongodb://localhost:27017';
 e.authorDB = process.env.MONGO_AUTHOR_DBNAME || 'datastackConfig';
 e.mongoAuthorUrl = process.env.MONGO_AUTHOR_URL || 'mongodb://localhost:27017';
 e.mongoLogUrl = process.env.MONGO_LOGS_URL || 'mongodb://localhost:27017';
+e.mongoAppcenterUrl = process.env.MONGO_APPCENTER_URL || 'mongodb://localhost:27017';
+e.dataDB = process.env.DATA_DB;
 e.logsDB = process.env.MONGO_LOGS_DBNAME || 'datastackLogs';
+e.configDB = process.env.MONGO_AUTHOR_DBNAME || 'datastackConfig';
 e.googleKey = process.env.GOOGLE_API_KEY || '';
 e.queueName = 'webHooks';
 e.streamingConfig = {
@@ -90,6 +93,10 @@ e.NATSConfig = {
 	reconnectTimeWait: process.env.STREAMING_RECONN_TIMEWAIT_MILLI || 500,
 };
 
+e.logQueueName = 'systemService';
+e.consoleLogQueueName = 'faasConsoleLogs';
+e.faasLastInvokedQueue = 'faasLastInvoked';
+
 // e.transactionOptions = {
 // 	readPreference: 'primary',
 // 	readConcern: { level: 'local' },
@@ -97,7 +104,7 @@ e.NATSConfig = {
 // };
 
 e.allFileTypes = 'ppt,xls,csv,doc,jpg,png,apng,gif,webp,flif,cr2,orf,arw,dng,nef,rw2,raf,tif,bmp,jxr,psd,zip,tar,rar,gz,bz2,7z,dmg,mp4,mid,mkv,webm,mov,avi,mpg,mp2,mp3,m4a,oga,ogg,ogv,opus,flac,wav,spx,amr,pdf,epub,exe,swf,rtf,wasm,woff,woff2,eot,ttf,otf,ico,flv,ps,xz,sqlite,nes,crx,xpi,cab,deb,ar,rpm,Z,lz,msi,mxf,mts,blend,bpg,docx,pptx,xlsx,3gp,3g2,jp2,jpm,jpx,mj2,aif,qcp,odt,ods,odp,xml,mobi,heic,cur,ktx,ape,wv,wmv,wma,dcm,ics,glb,pcap,dsf,lnk,alias,voc,ac3,m4v,m4p,m4b,f4v,f4p,f4b,f4a,mie,asf,ogm,ogx,mpc'.split(',');
-
+e.dataStackAllowedFileType = process.env.DATA_STACK_ALLOWED_FILE_TYPE;
 
 e.hostname = process.env.HOSTNAME;
 e.namespace = process.env.DATA_STACK_NAMESPACE || 'appveen';
