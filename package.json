@@ -21,7 +21,7 @@
     "got": "^11.8.2",
     "lodash": "4.17.21",
     "log4js": "6.4.4",
-    "moment": "2.29.2",
+    "moment": "2.29.3",
     "mongodb": "^4.5.0",
     "mongoose": "^6.3.3",
     "node-schedule": "^2.1.0",
