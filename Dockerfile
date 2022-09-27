@@ -1,8 +1,7 @@
-FROM node:16.15-alpine3.15
+FROM node:18.7.0-alpine3.16
 
 RUN apk update
 RUN apk upgrade
-RUN apk add git
 
 WORKDIR /app
 
