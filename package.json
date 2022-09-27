@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@appveen/data.stack-utils": "^1.0.19",
+    "@appveen/data-mapper": "^1.1.0",
     "@appveen/ds-sdk": "^2.3.0",
     "@appveen/utils": "2.1.7",
     "async": "^3.2.3",
