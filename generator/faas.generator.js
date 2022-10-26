@@ -7,14 +7,12 @@ async function getFaasContent(functionData) {
 	let content = `
 		const lodash = require('lodash');
 		const log4js = require('log4js');
-		const faker = require("faker");
 		const uuid = require('uuid');
 		const validator = require('validator');
 		const moment = require('moment');
 		const got = require('got');
 		const SDK = require('@appveen/ds-sdk');
 		const router = require('express').Router();
-		
 		const customAppender = require('../utils/appender.utils.js');
 
 		
@@ -22,13 +20,13 @@ async function getFaasContent(functionData) {
 			require('dotenv').config();
 		}
 
-		const { fqdn, logLevel, dataStackNS, dataStackAppName, dataStackAllowedFileType } = require('../config');
+		const { fqdn, logLevel, namespace, appNamespace, dataStackAllowedFileType } = require('../config');
 		const faasData = require('../faas.json');
 
 		const FQDN = fqdn;
 		const LOG_LEVEL = logLevel;
-		const DATA_STACK_NAMESPACE = dataStackNS;
-		const DATA_STACK_APP_NAMESPACE = dataStackAppName;
+		const DATA_STACK_NAMESPACE = namespace;
+		const DATA_STACK_APP_NAMESPACE = appNamespace;
 		const DATA_STACK_ALLOWED_FILE_TYPE = dataStackAllowedFileType;
 
 		process.env = {
@@ -77,7 +75,7 @@ async function getFaasContent(functionData) {
 		
 		module.exports = router;
 	`;
-	return { content };
+	return content ;
 }
 
 

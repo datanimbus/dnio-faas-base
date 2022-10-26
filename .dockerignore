@@ -3,7 +3,6 @@ npm-debug.log
 Dockerfile
 .dockerignore
 faas
-generator
 schemas
 generatedFaas
 build.sh
