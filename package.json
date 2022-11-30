@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@appveen/data.stack-utils": "^1.0.19",
+    "@appveen/data.stack-utils": "^1.0.21",
     "@appveen/data-mapper": "^1.1.0",
     "@appveen/ds-sdk": "^2.3.2",
     "@appveen/utils": "2.1.9",
