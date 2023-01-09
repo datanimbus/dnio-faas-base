@@ -133,6 +133,7 @@ e.baseUrlCOMMON = get('common') + '/api/common';
 e.baseUrlGW = get('gw');
 
 e.TOKEN_SECRET = process.env.TOKEN_SECRET || 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn';
+e.RBAC_JWT_KEY = process.env.RBAC_JWT_KEY || 'u?5k167v13w5fhjhuiweuyqi67621gqwdjavnbcvadjhgqyuqagsduyqtw87e187etqiasjdbabnvczmxcnkzn';
 
 
 function get(_service) {
@@ -172,7 +173,7 @@ module.exports = e;
 // const temp = {
 //   fqdn: process.env.FQDN,
 //   dataStackAllowedFileType: process.env.DATA_STACK_ALLOWED_FILE_TYPE,
-  
+
 //   logQueueName: 'systemService',
 //   consoleLogQueueName: 'faasConsoleLogs',
 //   faasLastInvokedQueue: 'faasLastInvoked',

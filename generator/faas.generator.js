@@ -12,6 +12,7 @@ async function getFaasContent(functionData) {
 		const moment = require('moment');
 		const got = require('got');
 		const SDK = require('@appveen/ds-sdk');
+		const Mapper = require('@appveen/data-mapper');
 		const router = require('express').Router();
 		const customAppender = require('../utils/appender.utils.js');
 
