@@ -21,7 +21,7 @@
     "fast-xml-parser": "^4.0.9",
     "got": "^11.8.5",
     "lodash": "4.17.21",
-    "log4js": "^6.6.1",
+    "log4js": "^6.9.1",
     "moment": "2.29.4",
     "mongodb": "^4.9.0",
     "mongoose": "^6.5.2",
