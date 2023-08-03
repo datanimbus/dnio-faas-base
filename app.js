@@ -17,7 +17,7 @@ const token = JWT.sign({ name: 'DS_BM', _id: 'admin', isSuperAdmin: true }, conf
 console.log('FAAS ID :: ', config.faasId);
 
 httpClient.request({
-  url: config.baseUrlBM + '/' + config.app + '/faas/' + config.faasId,
+  url: config.baseUrlBM + '/internal/document/faas/' + config.faasId,
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
