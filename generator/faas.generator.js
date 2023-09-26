@@ -28,14 +28,14 @@ async function getFaasContent(functionData) {
 		const LOG_LEVEL = logLevel;
 		const DATA_STACK_NAMESPACE = namespace;
 		const DATA_STACK_APP_NAMESPACE = appNamespace;
-		const DATA_STACK_ALLOWED_FILE_TYPE = dataStackAllowedFileType;
+		const ALLOWED_FILE_TYPES = dataStackAllowedFileType;
 
 		process.env = {
 			FQDN,
 			LOG_LEVEL,
 			DATA_STACK_NAMESPACE,
 			DATA_STACK_APP_NAMESPACE,
-			DATA_STACK_ALLOWED_FILE_TYPE
+			ALLOWED_FILE_TYPES
 		};
 
 		log4js.configure({
