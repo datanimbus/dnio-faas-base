@@ -92,6 +92,19 @@ function request(options, callback) {
   });
 }
 
+function handleError(err, callback) {
+	let error = {};
+	error.code = err.code;
+	error.name = err.name;
+	error.message = err.message;
+	error.stack = err.stack;
+	if (error.code == 'ECONNREFUSED') {
+		callback(null, null, null);
+	} else {
+		callback(error, null, null);
+	}
+}
+
 module.exports = {
   getErrorResponse,
   informBM,
