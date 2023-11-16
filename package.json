@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@appveen/data.stack-utils": "^1.0.22",
     "@appveen/data-mapper": "^1.1.0",
+    "@appveen/data.stack-utils": "https://github.com/appveen/data.stack-utils.git",
     "@appveen/ds-sdk": "^2.3.4",
     "@appveen/utils": "^2.2.1",
     "async": "^3.2.4",
@@ -27,11 +27,8 @@
     "mongodb": "^4.16.0",
     "mongoose": "^6.11.1",
     "node-schedule": "^2.1.1",
-    "request": "^2.88.2",
     "uuid": "8.3.2",
-    "validator": "13.9.0",
-    "xlsx": "^0.18.5",
-    "xlsx-populate": "^1.21.0"
+    "validator": "13.9.0"
   },
   "devDependencies": {
     "dotenv": "^16.0.0",

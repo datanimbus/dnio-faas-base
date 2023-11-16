@@ -1,4 +1,4 @@
-const request = require('request');
+const got = require('got');
 const config = require('../config');
 const log4js = require('log4js');
 
@@ -61,6 +61,36 @@ function initBM() {
   });
 }
 
+function getGOTOptions(options) {
+  let gotOptions = {};
+  gotOptions.throwHttpErrors = false;
+  gotOptions.url = options.url;
+  gotOptions.method = options.method;
+  gotOptions.headers = options.headers;
+  if (options.json) {
+    gotOptions.responseType = 'json';
+  }
+  if (options.body) {
+    gotOptions.json = options.body;
+  }
+  if (options.qs) {
+    gotOptions.searchParams = options.qs;
+  }
+  return gotOptions;
+}
+
+function request(options, callback) {
+  const gotOptions = getGOTOptions(options);
+  got(gotOptions).then((res) => {
+    if (res) {
+      callback(null, res, res.body);
+    } else {
+      callback(null, null, null);
+    }
+  }).catch(err => {
+    handleError(err, callback);
+  });
+}
 
 module.exports = {
   getErrorResponse,
